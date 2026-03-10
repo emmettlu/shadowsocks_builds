@@ -70,7 +70,7 @@ jobs:
               Set-Content -Path "bin/sslocal.rs" -Value $newContent
             }
           }
-          rm -f Cargo.lock
+          rm Cargo.lock
           cargo update
           cargo b -r
 
