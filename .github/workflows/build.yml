@@ -7,10 +7,10 @@ on:
 jobs:
   build:
     env:
-      PROJECT_REPOSITORY: watchexec/watchexec
-      PROJECT_VERSION: v2.3.2
-      PROJECT_PATH: watchexec
-      PROJECT_BIN: watchexec
+      PROJECT_REPOSITORY: shadowsocks/shadowsocks-rust
+      PROJECT_VERSION: v1.24.0
+      PROJECT_PATH: shadowsocks
+      PROJECT_BIN: shadowsocks
     strategy:
       matrix:
         os: [ubuntu-24.04, windows-2022]
@@ -63,6 +63,13 @@ jobs:
         shell: bash
         working-directory: ${{ env.PROJECT_PATH }}
         run: |
+          if ($env:RUNNER_OS -eq 'Windows') {
+            $content = Get-Content -Path "bin/sslocal.rs" -Raw
+            if (-not $content.StartsWith("#![windows_subsystem = `"windows`"]`n")) {
+              $newContent = "#![windows_subsystem = `"windows`"]`n" + $content
+              Set-Content -Path "bin/sslocal.rs" -Value $newContent
+            }
+          }
           rm -f Cargo.lock
           cargo update
           cargo b -r
