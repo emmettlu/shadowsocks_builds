@@ -60,7 +60,7 @@ jobs:
           cp -f ../.cargo/config.toml .cargo
 
       - name: Build
-        shell: bash
+        shell: pwsh
         working-directory: ${{ env.PROJECT_PATH }}
         run: |
           if ($env:RUNNER_OS -eq 'Windows') {
